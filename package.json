@@ -1,5 +1,6 @@
 {
   "name": "sekr8s",
+  "version": "0.0.1",
   "dependencies": {
     "argparse": "^1.0.10"
   },
