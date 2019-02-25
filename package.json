@@ -2,20 +2,32 @@
   "name": "sekr8s",
   "version": "0.1.0",
   "description": "A command-line Secrets helper for Kubernetes.",
-  "keywords": "kubernetes secret secrets cli commandline",
+  "keywords": [
+    "kubernetes",
+    "secret",
+    "secrets",
+    "cli",
+    "commandline"
+  ],
   "license": "MIT",
-  "author": {
-    "name": "Jesse Kinkead",
-    "url": "https://github.com/jkinkead"
-  },
+  "author": "Jesse Kinkead (https://github.com/jkinkead)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Nordstrom/sekr8s"
+    "url": "git+https://github.com/Nordstrom/sekr8s.git"
   },
   "bin": {
     "sekr8s": "./cli.js"
   },
   "dependencies": {
     "argparse": "^1.0.10"
+  },
+  "bugs": {
+    "url": "https://github.com/Nordstrom/sekr8s/issues"
+  },
+  "homepage": "https://github.com/Nordstrom/sekr8s#readme",
+  "main": "cli.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
