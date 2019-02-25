@@ -26,24 +26,31 @@ Run `sekr8s -h` for help, and `sekr8s {cmd} -h` for command-specific help.
 
 ### Read a Secret
 
+Read all keys from a secret, printing them in base64:
 ```
-# Read all keys from a secret, printing them in base64.
 $ sekr8s get my-secret
 All keys from my-secret -
 bar: YmFyaw==
 foo: Zm9vZA==
-# Read all keys, printing them decoded. Note that this will be annoying for
-# binary values.
+```
+
+Read all keys, printing them decoded (this will be annoying for binary values):
+```
 $ sekr8s get -d my-secret
 All keys from my-secret -
 bar: bark
 foo: food
-# Read a single key.
+```
+
+Read a single key:
+```
 $ sekr8s get -d my-secret foo
 Selected keys from my-secret -
 foo: food
-# Read a single key, and pipe the output to a file. This is especially good for
-# binary data.
+```
+
+Read a single key, and pipe the output to a file (this is especially good for binary data):
+```
 $ sekr8s get -d -q my-secret foo > foo.txt
 $ cat foo.txt
 food⏎
@@ -51,24 +58,30 @@ food⏎
 
 ### Set values in a Secret
 
+Set a list of keys, typing in raw values:
 ```
-# Set a list of keys, typing in raw values.
 $ sekr8s set my-secret foo bar
 New unencoded value for foo: fool
 New unencoded value for bar: bard
 my-secret updated.
-# Set a single value, piped in from file.
+```
+
+Set a single value, piped in from file:
+```
 $ cat foo.txt | sekr8s set my-secret foo
 my-secret updated.
-# Set a base64-encoded value. This is useful for keys with newlines.
+```
+
+Set a base64-encoded valu (useful for keys with newlines):
+```
 $ echo -n -e 'foodie\nfool' | base64 | sekr8s set --encoded my-secret foo
 my-secret updated.
 ```
 
 ### Create a Secret
 
+Create with keys `foo` and `bar`:
 ```
-# Create with keys `foo` and `bar`.
 $ sekr8s create my-secret foo bar
 New unencoded value for foo: food
 New unencoded value for bar: bark
