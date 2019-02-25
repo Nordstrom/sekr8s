@@ -1,3 +1,4 @@
-# sekr8s
+# `sekr8s`: A Kubernetes Secrets CLI
 
-This is not documented.
+This package provides a CLI for interacting with a Kubernetes server to create, read, and update
+secrets on the server.

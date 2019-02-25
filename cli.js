@@ -5,7 +5,7 @@
 
 const { ArgumentParser } = require('argparse')
 
-const child_process = require('child_process')
+const child_process = require('child_process') // eslint-disable-line
 const { BetterPrompt } = require('./better_prompt')
 
 /** Custom error containing an exit code. */
@@ -98,6 +98,7 @@ const getSecret = (namespace, secretName, keys, shouldDecode) => {
     displayValues = valuesByKey
   }
 
+  // TODO(jkinkead): Add a quiet mode that only prints raw values.
   if (keys) {
     console.log(`Selected keys from ${secretName} -`)
   } else {
@@ -112,7 +113,7 @@ const getSecret = (namespace, secretName, keys, shouldDecode) => {
  * Sets value(s) in an existing secret.
  * @param namespace {string|undefined} - If set, the namespace to search in.
  * @param secretName {string} - The secret to update.
- * @param keys {string[]|undefined} - If set, the keys to display. If unset, display all keys.
+ * @param keys {string[]|undefined} - If set, the keys to update. If unset, update all keys.
  * @param encodeValues {boolean} - If true, base64-encode the user-provided values before saving.
  * @throws {ExitError} If the provided secret doesn't exist.
  */
@@ -142,7 +143,7 @@ const setSecret = (namespace, secretName, keys, encodeValues) => {
       if (encodeValues) {
         value = Buffer.from(value, 'utf-8').toString('base64')
       } else {
-        // TODO: Validate base64 encoding?
+        // TODO(jkinkead): Validate base64 encoding?
       }
       secret.data[key] = value
     })
@@ -154,6 +155,26 @@ const setSecret = (namespace, secretName, keys, encodeValues) => {
   }).finally(() => {
     prompt.close()
   })
+}
+
+/**
+ * Creates value(s) in a new secret.
+ * @param namespace {string|undefined} - If set, the namespace to search in.
+ * @param secretName {string} - The secret to update.
+ * @param keys {string[]|undefined} - If set, the keys to create. If unset, create no keys.
+ * @param encodeValues {boolean} - If true, base64-encode the user-provided values before saving.
+ */
+const createSecret = (namespace, secretName, keys, encodeValues) => {
+  // Create an empty secret, then ask for the keys the user wanted to create.
+  const namespaceArgs = namespace ? ['-n', namespace] : []
+  runKubectlOrExit(
+    namespaceArgs.concat(['create', 'secret', secretName]))
+  // Now, set the keys!
+  if (keys.length > 0) {
+    return setSecret(namespace, secretName, keys, encodeValues)
+  } else {
+    return Promise.resolve()
+  }
 }
 
 const parser = new ArgumentParser({
@@ -212,11 +233,13 @@ try {
       break
     case 'set':
       setSecret(args.namespace, args.secret, args.key, !args.decode).catch(e => {
-        console.log(e)
+        console.error(e)
       })
       break
     case 'create':
-      console.log('TODO: create')
+      createSecret(args.namespace, args.secret, args.key, !args.decode).catch(e => {
+        console.error(e)
+      })
       break
     default:
       throw new Error('programming error - unhandled command')

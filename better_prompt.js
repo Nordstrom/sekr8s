@@ -60,7 +60,7 @@ class BetterPrompt {
           resolve(this.linesQueue.shift())
         } else {
           // Wait for the next line.
-          resolve(new Promise(listenerResolve => {
+          resolve(new Promise(listenerResolve => { // eslint-disable-line
             this.resolve = listenerResolve
           }))
         }
