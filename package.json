@@ -1,10 +1,21 @@
 {
   "name": "sekr8s",
-  "version": "0.0.1",
-  "dependencies": {
-    "argparse": "^1.0.10"
+  "version": "0.1.0",
+  "description": "A command-line Secrets helper for Kubernetes.",
+  "keywords": "kubernetes secret secrets cli commandline",
+  "license": "MIT",
+  "author": {
+    "name": "Jesse Kinkead",
+    "url": "https://github.com/jkinkead"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nordstrom/sekr8s"
   },
   "bin": {
     "sekr8s": "./cli.js"
+  },
+  "dependencies": {
+    "argparse": "^1.0.10"
   }
 }
